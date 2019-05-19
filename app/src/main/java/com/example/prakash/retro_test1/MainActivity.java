@@ -31,11 +31,15 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // CONNECT RESOURCE FILE ELEMENTS WITH JAVA
+
         ipp = (TextView) findViewById(R.id.ip);
         citty = (TextView) findViewById(R.id.city);
         country = (TextView) findViewById(R.id.country);
         state = (TextView) findViewById(R.id.state);
         isp = (TextView) findViewById(R.id.isp);
+
+        // CALLING THE RETROFIT FUNCTION
 
         getdata();
 
@@ -43,16 +47,24 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
     }
 
     private void getdata() {
-        final Call<IpInfo> IpInfo = IpAPI.getService().getIpInfo();
+
+        final Call<IpInfo> IpInfo = IpAPI.getService().getIpInfo();    //  CRATING A IPINFO ADAPTER
+
         IpInfo.enqueue(new Callback<com.example.prakash.retro_test1.IpInfo>() {
             @Override
             public void onResponse(Call<com.example.prakash.retro_test1.IpInfo> call, Response<com.example.prakash.retro_test1.IpInfo> response) {
-                IpInfo list = response.body();
+
+                IpInfo list = response.body(); // CREATING A LIST FROM THE ELEMENTS RETURNED BY THE JSON
+
                 Toast.makeText(MainActivity.this, "GOT IT !! " + list.getIp().toString(), Toast.LENGTH_SHORT).show();
+
+                // USING THE LIST OBJ TO GET EACH ELEMENTS - ASSIGNING THEM TO A LOCAL VARIABLE
 
                 city = list.getCity();
                 lat = list.getLongitude();
                 lon = list.getLatitude();
+
+                // ASSIGNING FEW VALUES TO XML ELEMENTS (TO DISPLAY THEM ON SCREEN)
 
                 ipp.setText(list.getIp().toString());
                 state.setText(list.getRegion().toString());
@@ -60,14 +72,12 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
                 country.setText(list.getCountry().toString());
                 isp.setText(list.getOrg().toString());
 
-
+                // ONCE AFTER GETTING AND ASSIGNING THE JSON ELEMENTS , LAT AND LON IS PASSED TO MAP - MAP IS INVOKED HERE
 
                 SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                         .findFragmentById(R.id.map);
 
                 mapFragment.getMapAsync(MainActivity.this);
-
-
             }
 
             @Override
@@ -78,17 +88,17 @@ public class MainActivity extends FragmentActivity implements OnMapReadyCallback
         });
     }
 
+    // OVERRIDE FUNCTION THAT IS CALLED WHEN THE MAP IS READY
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-        LatLng marker = new LatLng(lon, lat);
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 13));
-        googleMap.addMarker(new MarkerOptions().position(marker));
+        LatLng marker = new LatLng(lon, lat);                                           // CREATE A MARKER OBJECT
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(marker, 13));        //  SET THE MAP CAMERA VIEW WITH 13X ZOOMING
+        googleMap.addMarker(new MarkerOptions().position(marker));                    //   ADD THE MARKET TO THE MAP
 
         Toast.makeText(MainActivity.this, "LAT / LON" + lat.toString() + " " + lon.toString(), Toast.LENGTH_LONG).show();
-
     }
-
 
 }
 

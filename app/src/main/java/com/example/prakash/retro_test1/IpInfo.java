@@ -4,6 +4,11 @@ package com.example.prakash.retro_test1;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+// THIS FILE HANDLES EACH AND EVERY ELEMENT RETURNED BY THE JSON - HAS CORRESPONDING FUNCTIONS TO RETURN THE ELEMENTS'S PRESENT VALUE
+
+// GENERATED ONLINE USING SITE CALLED - http://www.jsonschema2pojo.org/
+// Source type: - JSON Annotation style: - GSON , REST OF THE THINGS ARE LEFT DEFAULT
+
 public class IpInfo {
 
     @SerializedName("ip")
